@@ -1,11 +1,12 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI,Request
+from fastapi.templating import Jinja2Templates
+
 import paho.mqtt.client as mqtt
 import redis
 import os
 from dotenv import find_dotenv,load_dotenv
 app=FastAPI()
-
+templates=Jinja2Templates(directory="Templates")
 env_path=find_dotenv()
 load_dotenv(env_path)
 
@@ -55,28 +56,10 @@ mqtt_client.on_message = store_in_buffer_redis
 
 mqtt_client.loop_start()
 
-@app.get("/", response_class=HTMLResponse)
-def health():
-    return """
-    <html>
-        <head><title>MQTT Middle Man</title></head>
-        <body>
-            <h1>Server is running 🚀</h1>
-            <p>Status: OK</p>
-        </body>
-    </html>
-    """
-@app.post("/", response_class=HTMLResponse)
-def health():
-    return """
-    <html>
-        <head><title>MQTT Middle Man</title></head>
-        <body>
-            <h1>Server is running 🚀</h1>
-            <p>Status: OK</p>
-        </body>
-    </html>
-    """
+def read_root(request:Request):
+    return templates.TemplateResponse("index.html",{"request":request})
+
+
 
 
 
