@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,status
 from fastapi.responses import JSONResponse
 import paho.mqtt.client as mqtt
 import redis
@@ -58,6 +58,7 @@ mqtt_client.loop_start()
 @app.get("/health")
 def health():
     return JSONResponse(content={"status": "ok"}, status_code=status.HTTP_200_OK)
+
 
 
 
