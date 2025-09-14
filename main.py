@@ -56,7 +56,8 @@ mqtt_client.loop_start()
 
 @app.get("/health")
 def health():
-    return {"status":"ok"}
+    return {"status":"ok"},200
+
 
 
 
