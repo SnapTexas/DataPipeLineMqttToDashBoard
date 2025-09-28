@@ -10,10 +10,6 @@ templates=Jinja2Templates(directory="Templates")
 env_path=find_dotenv()
 load_dotenv(env_path)
 
-fake_data = {
-    "id": "abc",
-    "msg": "hello World"
-}
 
 
 mqtt_sub_topic=os.getenv("bridge_server_mqtt_topic")
@@ -63,16 +59,12 @@ mqtt_client.on_message = store_in_buffer_redis
 mqtt_client.loop_start()
 @app.head("/")
 def head_data():
-    """Returns headers only, no body"""
-    # You can customize headers if you want
-    headers = {
-        "X-Custom-Header": "Example",
-        "Content-Length": str(len(str(fake_data)))  # mimic GET content length
-    }
-    return Response(headers=headers, status_code=200)
+    
+    return Response(status_code=200)
 @app.get("/")
 def read_root(request:Request):
     return templates.TemplateResponse("index.html",{"request":request})
+
 
 
 
