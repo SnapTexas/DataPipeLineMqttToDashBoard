@@ -57,9 +57,10 @@ mqtt_client.on_connect=mqtt_connection_status
 mqtt_client.on_message = store_in_buffer_redis
 
 mqtt_client.loop_start()
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def read_root(request:Request):
     return templates.TemplateResponse("index.html",{"request":request})
+
 
 
 
