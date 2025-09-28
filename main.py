@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Request,Response
+from fastapi import FastAPI,Request
 from fastapi.templating import Jinja2Templates
 
 import paho.mqtt.client as mqtt
@@ -57,13 +57,10 @@ mqtt_client.on_connect=mqtt_connection_status
 mqtt_client.on_message = store_in_buffer_redis
 
 mqtt_client.loop_start()
-@app.head("/")
-def head_data():
-    
-    return Response(status_code=200)
 @app.get("/")
 def read_root(request:Request):
     return templates.TemplateResponse("index.html",{"request":request})
+
 
 
 
